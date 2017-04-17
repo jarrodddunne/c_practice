@@ -27,6 +27,9 @@ main() {
         da->arr[i] = a[i];
     }
     heap_bottom_up(da);
+    insert(da, 11);
+    insert(da, 3);
+    insert(da, 1);
     for (int i = 0; i < da->size; i++) {
         printf("%d ", da->arr[i]);
     }
@@ -41,9 +44,9 @@ void heap_bottom_up(struct dyn_arr *da) {
         while (heap == 0 && 2 * k <= n) {
             int j = 2 * k;
             if (j < n)
-                if (da->arr[j] < da->arr[j+1])
+                if (da->arr[j] > da->arr[j+1])
                     ++j;
-            if (v >= da->arr[j])
+            if (v <= da->arr[j])
                 heap = 1;
             else {
                 da->arr[k] = da->arr[j];
@@ -61,7 +64,7 @@ struct dyn_arr *dalloc(void) {
 
 void swap(int *arr, int loc1, int loc2) {
     int tmp = arr[loc1];
-    arr[loc1] = arr[loc1];
+    arr[loc1] = arr[loc2];
     arr[loc2] = tmp;
 }
 
@@ -93,11 +96,11 @@ void resize(struct dyn_arr *da) {
 }
 
 void insert(struct dyn_arr *da, int val) {
-    if (da->num_vals >= da->size)
+    if (da->num_vals >= da->size - 2)
         resize(da);
-    int loc = da->num_vals;
+    int loc = da->num_vals + 1;
     da->arr[loc] = val;
-    while (loc > 1 && da->arr[parent(loc)] < da->arr[loc]) {
+    while (loc > 1 && da->arr[parent(loc)] > da->arr[loc]) {
         swap(da->arr, loc, parent(loc));
         loc = parent(loc);
     }

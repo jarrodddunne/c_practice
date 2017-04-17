@@ -95,7 +95,7 @@ void resize(struct dyn_arr *da) {
 void insert(struct dyn_arr *da, int val) {
     if (da->num_vals >= da->size)
         resize(da);
-    int loc = da->num_vals;
+    int loc = da->num_vals + 1;
     da->arr[loc] = val;
     while (loc > 1 && da->arr[parent(loc)] < da->arr[loc]) {
         swap(da->arr, loc, parent(loc));
